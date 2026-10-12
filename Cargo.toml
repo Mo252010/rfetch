@@ -1,0 +1,21 @@
+[package]
+name = "rfetch"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.104"
+crossterm = "0.29.0"
+dirs = "7.0.0"
+nvml-wrapper = "0.13.0"
+ratatui = "0.30.2"
+serde = { version = "1.0.229", features = ["derive"] }
+sysinfo = "0.39.6"
+toml = "1.1.8"
+
+[profile.release]
+opt-level = "z"
+lto = true
+codegen-units = 1
+panic = "abort"
+strip = true
