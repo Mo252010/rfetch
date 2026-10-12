@@ -41,20 +41,43 @@ the same binary.
 
 ## Install
 
-Build from source (requires Rust 1.85+):
+### macOS (Homebrew)
+
+```sh
+brew tap Mo252010/rfetch
+brew install rfetch
+```
+
+Builds from source on both Intel and Apple Silicon Macs. Prebuilt universal
+macOS binaries are attached to every [GitHub release](https://github.com/Mo252010/rfetch/releases).
+
+### Prebuilt binaries
+
+Download from the [releases page](https://github.com/Mo252010/rfetch/releases) —
+`linux-x86_64`, `macos-universal` (Intel + Apple Silicon), `windows-x86_64`:
+
+```sh
+curl -Lo rfetch.tar.gz https://github.com/Mo252010/rfetch/releases/latest/download/rfetch-macos-universal.tar.gz
+tar -xzf rfetch.tar.gz && ./rfetch
+```
+
+Binary is also `cargo binstall`-able: `cargo binstall rfetch`.
+
+### From source
+
+Requires Rust 1.85+:
 
 ```sh
 cargo install --path .
-```
-
-or clone and build a release binary:
-
-```sh
 git clone https://github.com/Mo252010/rfetch.git
 cd rfetch
 cargo build --release
 ./target/release/rfetch
 ```
+
+### Arch / AUR
+
+An [AUR PKGBUILD](packaging/aur/PKGBUILD) is included (submit/publish pending).
 
 ## Usage
 

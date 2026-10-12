@@ -1,0 +1,71 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: linux-x86_64
+            os: ubuntu-24.04
+            ext: tar.gz
+          - name: macos-universal
+            os: macos-14
+            ext: tar.gz
+          - name: windows-x86_64
+            os: windows-2022
+            ext: zip
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: dtolnay/rust-toolchain@v1
+        with:
+          toolchain: stable
+
+      - name: Build
+        shell: bash
+        run: |
+          set -euxo pipefail
+          case "${{ matrix.name }}" in
+            macos-*)
+              # Universal binary for both Intel and Apple Silicon Macs.
+              rustup target add aarch64-apple-darwin x86_64-apple-darwin
+              cargo build --release --locked --target aarch64-apple-darwin
+              cargo build --release --locked --target x86_64-apple-darwin
+              mkdir -p dist
+              lipo -create -output dist/rfetch \
+                target/aarch64-apple-darwin/release/rfetch \
+                target/x86_64-apple-darwin/release/rfetch
+              ;;
+            *)
+              cargo build --release --locked
+              mkdir -p dist
+              cp target/release/rfetch dist/rfetch
+              ;;
+          esac
+
+      - name: Package
+        shell: bash
+        run: |
+          set -euxo pipefail
+          cd dist
+          if [ "${{ matrix.ext }}" = "zip" ]; then
+            mv rfetch rfetch.exe 2>/dev/null || true
+            powershell -Command "Compress-Archive -Path rfetch.exe -DestinationPath rfetch-${{ matrix.name }}.zip"
+          else
+            tar -czf rfetch-${{ matrix.name }}.tar.gz rfetch
+          fi
+          ls -la
+
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/rfetch-${{ matrix.name }}.${{ matrix.ext }}

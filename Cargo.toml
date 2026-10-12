@@ -9,7 +9,7 @@ homepage = "https://github.com/Mo252010/rfetch"
 readme = "README.md"
 keywords = ["tui", "system-info", "neofetch", "sysinfo", "terminal"]
 categories = ["command-line-utilities"]
-exclude = ["packaging/"]
+exclude = ["packaging/", ".github/"]
 
 [dependencies]
 anyhow = "1.0.104"
