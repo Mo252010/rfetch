@@ -50,7 +50,7 @@ cargo install --path .
 or clone and build a release binary:
 
 ```sh
-git clone https://github.com/<user>/rfetch.git
+git clone https://github.com/Mo252010/rfetch.git
 cd rfetch
 cargo build --release
 ./target/release/rfetch
