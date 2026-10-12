@@ -1,0 +1,25 @@
+# Maintainer: carhooked <carhooked@users.noreply.github.com>
+# Contributor: carhooked <carhooked@users.noreply.github.com>
+
+pkgname=rfetch
+pkgver=0.1.0
+pkgrel=1
+pkgdesc="A fast, live system info TUI with a built-in config editor"
+arch=('x86_64')
+url="https://github.com/Mo252010/rfetch"
+license=('MIT')
+makedepends=('cargo' 'rust')
+options=('!lto')
+source=("$pkgname-$pkgver.tar.gz::https://github.com/Mo252010/rfetch/archive/refs/tags/v$pkgver.tar.gz")
+b2sums=('SKIP')
+
+build() {
+    cd "$srcdir/rfetch-$pkgver"
+    cargo build --release --locked
+}
+
+package() {
+    cd "$srcdir/rfetch-$pkgver"
+    install -Dm755 target/release/rfetch "$pkgdir/usr/bin/rfetch"
+    install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}

@@ -2,6 +2,14 @@
 name = "rfetch"
 version = "0.1.0"
 edition = "2024"
+description = "A fast, live system info TUI with a built-in config editor"
+license = "MIT"
+repository = "https://github.com/Mo252010/rfetch"
+homepage = "https://github.com/Mo252010/rfetch"
+readme = "README.md"
+keywords = ["tui", "system-info", "neofetch", "sysinfo", "terminal"]
+categories = ["command-line-utilities"]
+exclude = ["packaging/"]
 
 [dependencies]
 anyhow = "1.0.104"
